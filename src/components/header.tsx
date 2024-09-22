@@ -6,7 +6,7 @@ import { ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
 export function Header() {
   return (
     <header className="border-b shadow-sm">
-      <nav className="flex items-center px-6 lg:px-10 py-4">
+      <nav className="flex items-center px-6 lg:px-10 py-3">
         <Link href="/">
           <Image
             src="/fam-logo.png"

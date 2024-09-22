@@ -62,6 +62,9 @@ export async function POST(req: Request) {
             (e) => e.id === evt.data.primary_email_address_id
           )?.email_address!,
           username: evt.data.username,
+          phone: evt.data.phone_numbers.find(
+            (p) => p.id === evt.data.primary_phone_number_id
+          )?.phone_number,
           imageUrl: evt.data.image_url,
           createdAt: new Date(evt.data.created_at).toISOString(),
           updatedAt: new Date(evt.data.updated_at).toISOString(),
@@ -79,6 +82,9 @@ export async function POST(req: Request) {
             (e) => e.id === evt.data.primary_email_address_id
           )?.email_address!,
           username: evt.data.username,
+          phone: evt.data.phone_numbers.find(
+            (p) => p.id === evt.data.primary_phone_number_id
+          )?.phone_number,
           imageUrl: evt.data.image_url,
           updatedAt: new Date(evt.data.updated_at).toISOString(),
         },
