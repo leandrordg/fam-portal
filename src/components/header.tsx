@@ -14,6 +14,7 @@ export function Header() {
             width={100}
             height={100}
             className="w-20 lg:w-24 object-contain"
+            priority
           />
         </Link>
 
