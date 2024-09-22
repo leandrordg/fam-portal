@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
@@ -52,12 +53,42 @@ export async function POST(req: Request) {
 
   switch (eventType) {
     case "user.created":
+      await db.user.create({
+        data: {
+          id: evt.data.id,
+          firstName: evt.data.first_name!,
+          lastName: evt.data.last_name!,
+          email: evt.data.email_addresses.find(
+            (e) => e.id === evt.data.primary_email_address_id
+          )?.email_address!,
+          username: evt.data.username,
+          imageUrl: evt.data.image_url,
+          createdAt: new Date(evt.data.created_at).toISOString(),
+          updatedAt: new Date(evt.data.updated_at).toISOString(),
+        },
+      });
       console.log(`[SVIX] User created with ID: ${id}`);
       break;
     case "user.updated":
+      await db.user.update({
+        where: { id: evt.data.id },
+        data: {
+          firstName: evt.data.first_name!,
+          lastName: evt.data.last_name!,
+          email: evt.data.email_addresses.find(
+            (e) => e.id === evt.data.primary_email_address_id
+          )?.email_address!,
+          username: evt.data.username,
+          imageUrl: evt.data.image_url,
+          updatedAt: new Date(evt.data.updated_at).toISOString(),
+        },
+      });
       console.log(`[SVIX] User updated with ID: ${id}`);
       break;
     case "user.deleted":
+      await db.user.delete({
+        where: { id: evt.data.id },
+      });
       console.log(`[SVIX] User deleted with ID: ${id}`);
       break;
     default:
