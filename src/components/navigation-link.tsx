@@ -2,23 +2,25 @@
 
 import Link from "next/link";
 
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, type LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 type Props = {
   url: string;
   name: string;
+  icon: LucideIcon;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function NavigationLink({ url, name }: Props) {
+export function NavigationLink({ url, name, icon: Icon, setOpen }: Props) {
   const pathname = usePathname();
 
   const isActive = pathname === url;
 
   return (
-    <Link href={url}>
+    <Link href={url} onClick={() => setOpen && setOpen(false)}>
       <li className={`flex items-center ${isActive && "font-semibold"}`}>
-        {name} {isActive && <ChevronRightIcon className="size-4 ml-auto" />}
+        <Icon className="size-4 mr-4"/> {name} {isActive && <ChevronRightIcon className="size-4 ml-auto" />}
       </li>
     </Link>
   );
