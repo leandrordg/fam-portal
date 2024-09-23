@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
+
+import { ChevronRightIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 type Props = {
@@ -16,9 +17,8 @@ export function NavigationLink({ url, name }: Props) {
 
   return (
     <Link href={url}>
-      <li className={`flex items-center ${isActive && "text-sky-800 font-semibold"}`}>
-        {name}
-        <ChevronRightIcon className="size-4 ml-auto" />
+      <li className={`flex items-center ${isActive && "font-semibold"}`}>
+        {name} {isActive && <ChevronRightIcon className="size-4 ml-auto" />}
       </li>
     </Link>
   );

@@ -1,5 +1,5 @@
+import { NavigationLink } from "@/components/navigation-link";
 import { getNavigationLinks } from "@/hooks/links";
-import { NavigationLink } from "./navigation-link";
 
 export async function NavigationMenu() {
   const links = await getNavigationLinks();

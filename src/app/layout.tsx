@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import { Header } from "@/components/header";
-import { NavigationMenu } from "@/components/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
@@ -18,23 +18,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="pt-BR">
         <body className={`${geistSans.className} antialiased`}>
-          <Header />
-          <div className="flex p-6 lg:p-10 gap-6">
-            {/* Sidebar */}
-            <nav className="hidden lg:block min-w-64">
-              <NavigationMenu />
-            </nav>
-            
-            {/* Content */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
             {children}
-          </div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

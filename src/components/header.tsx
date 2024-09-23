@@ -1,26 +1,21 @@
-import Image from "next/image";
-import Link from "next/link";
-
+import { Logo } from "@/components/logo";
+import { MobileMenu } from "@/components/mobile-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
 
 export function Header() {
   return (
-    <header className="border-b shadow-sm">
-      <nav className="flex items-center px-6 lg:px-10 py-3">
-        <Link href="/">
-          <Image
-            src="/fam-logo.png"
-            alt="FAM Logo"
-            width={100}
-            height={100}
-            className="w-20 lg:w-24 object-contain"
-            priority
-          />
-        </Link>
+    <header className="border-b border-input bg-background">
+      <nav className="flex items-center gap-4 px-6 lg:px-10 py-3">
+        <MobileMenu />
 
-        <div className="flex items-center ml-auto">
+        <Logo />
+
+        <div className="flex items-center gap-4 ml-auto">
+          <ThemeToggle />
+
           <ClerkLoading>
-            <div className="size-7 rounded-full bg-gray-100 animate-pulse" />
+            <div className="size-7 rounded-full bg-muted animate-pulse" />
           </ClerkLoading>
           <SignedIn>
             <UserButton />
