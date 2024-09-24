@@ -10,11 +10,11 @@ import { LogOutIcon, ShieldIcon } from "lucide-react";
 export function ChangeMode() {
   const { session } = useSession();
 
+  const pathname = usePathname();
+
   const isAdmin = session?.user.publicMetadata.isAdmin;
 
   if (!isAdmin) return null;
-
-  const pathname = usePathname();
 
   if (pathname.startsWith("/admin")) {
     return (
