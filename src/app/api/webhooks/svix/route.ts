@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
+import { ROLE } from "@prisma/client";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
 
       await clerkClient.users.updateUserMetadata(evt.data.id, {
         publicMetadata: {
-          user_role: "guest",
+          user_role: ROLE.GUEST,
         },
       });
 
@@ -94,14 +95,17 @@ export async function POST(req: Request) {
           )?.phone_number,
           imageUrl: evt.data.image_url,
           updatedAt: new Date(evt.data.updated_at).toISOString(),
+          role: evt.data.public_metadata?.user_role,
         },
       });
+
       console.log(`[SVIX] User updated with ID: ${id}`);
       break;
     case "user.deleted":
       await db.user.delete({
         where: { id: evt.data.id },
       });
+
       console.log(`[SVIX] User deleted with ID: ${id}`);
       break;
     default:

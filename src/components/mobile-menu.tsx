@@ -6,13 +6,14 @@ import { Logo } from "@/components/logo";
 import { NavigationMenu } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import type { ROLE } from "@prisma/client";
 import { MenuIcon } from "lucide-react";
 
 type Props = {
-  isAdmin: boolean;
+  role: ROLE;
 };
 
-export function MobileMenu({ isAdmin }: Props) {
+export function MobileMenu({ role }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,9 +24,9 @@ export function MobileMenu({ isAdmin }: Props) {
         </Button>
       </SheetTrigger>
       <SheetContent className="flex flex-col gap-6" side="left">
-        <Logo isAdmin={isAdmin} />
+        <Logo role={role} />
 
-        <NavigationMenu isAdmin={isAdmin} setOpen={setIsOpen} />
+        <NavigationMenu role={role} setOpen={setIsOpen} />
       </SheetContent>
     </Sheet>
   );

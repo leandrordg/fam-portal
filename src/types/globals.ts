@@ -1,11 +1,16 @@
+import type { ROLE } from "@prisma/client";
 import type { LucideIcon } from "lucide-react";
 
 export {};
 
 declare global {
+  interface UserPublicMetadata {
+    user_role: ROLE;
+  }
+
   interface CustomJwtSessionClaims {
     metadata: {
-      isAdmin: boolean;
+      user_role: ROLE;
     };
   }
 }

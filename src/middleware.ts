@@ -17,12 +17,12 @@ export default clerkMiddleware((auth, request) => {
   }
 
   // check if the user is an admin
-  const isAdmin = sessionClaims?.metadata.isAdmin;
+  const isAdmin = sessionClaims?.metadata.user_role === "ADMIN";
 
   // if is an admin route and the user is not an admin, protect the route, returning a 404
   if (isAdminRoute(request) && !isAdmin) {
     auth().protect((has) => {
-      return has({ role: "isAdmin" });
+      return has({ permission: "user_role:'ADMIN'" });
     });
   }
 });

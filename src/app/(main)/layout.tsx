@@ -1,18 +1,16 @@
 import { NavigationMenu } from "@/components/navigation";
-import { auth } from "@clerk/nextjs/server";
+import { currentRole } from "@/lib/role";
 
-export default function DashboardLayout({
+export default function MainLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { sessionClaims } = auth();
-
-  const isAdmin = sessionClaims?.metadata.isAdmin!!;
+  const role = currentRole();
 
   return (
     <div className="flex p-6 lg:p-10 gap-6 max-w-screen-2xl mx-auto">
       {/* Sidebar */}
       <nav className="hidden lg:block min-w-64">
-        <NavigationMenu isAdmin={isAdmin} />
+        <NavigationMenu role={role} />
       </nav>
 
       {/* Content */}

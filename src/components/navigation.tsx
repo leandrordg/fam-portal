@@ -1,19 +1,46 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
 import { NavigationLink } from "@/components/navigation-link";
 import { Badge } from "@/components/ui/badge";
 import type { Link } from "@/types/globals";
+import type { ROLE } from "@prisma/client";
 import {
   BoltIcon,
   HomeIcon,
+  LandPlotIcon,
   LayoutDashboardIcon,
   ShieldIcon,
   SquareActivityIcon,
 } from "lucide-react";
 
-const publicLinks: Link[] = [
+const guestLinks: Link[] = [
+  {
+    id: "1",
+    url: "/",
+    name: "Página Inicial",
+    icon: HomeIcon,
+  },
+  {
+    id: "2",
+    url: "/onboarding",
+    name: "Dashboard",
+    icon: LayoutDashboardIcon,
+  },
+  {
+    id: "3",
+    url: "/onboarding/courses",
+    name: "Cursos Disponíveis",
+    icon: LandPlotIcon,
+  },
+  {
+    id: "4",
+    url: "/onboarding/settings",
+    name: "Configurações",
+    icon: BoltIcon,
+  },
+];
+
+const studentLinks: Link[] = [
   {
     id: "1",
     url: "/",
@@ -40,7 +67,18 @@ const publicLinks: Link[] = [
   },
 ];
 
-const privateLinks: Link[] = [
+const teacherLinks: Link[] = [
+  {
+    id: "1",
+    url: "/",
+    name: "Página Inicial",
+    icon: HomeIcon,
+  },
+  { id: "2", url: "/teacher", name: "Dashboard", icon: LayoutDashboardIcon },
+  { id: "3", url: "/teacher/settings", name: "Configurações", icon: BoltIcon },
+];
+
+const adminLinks: Link[] = [
   {
     id: "1",
     url: "/",
@@ -52,23 +90,25 @@ const privateLinks: Link[] = [
 ];
 
 type Props = {
-  isAdmin: boolean;
+  role: ROLE;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function NavigationMenu({ isAdmin, setOpen }: Props) {
-  const pathname = usePathname();
-
-  const isAdminRoute = pathname.startsWith("/admin");
-
-  const links = isAdminRoute && isAdmin ? privateLinks : publicLinks;
+export function NavigationMenu({ role, setOpen }: Props) {
+  const links =
+    {
+      GUEST: guestLinks,
+      STUDENT: studentLinks,
+      TEACHER: teacherLinks,
+      ADMIN: adminLinks,
+    }[role] || guestLinks;
 
   return (
     <ul className="flex flex-col gap-2">
-      {isAdminRoute && isAdmin && (
-        <Badge className="mb-4">
+      {role === "ADMIN" && (
+        <Badge variant="secondary" className="mb-4">
           <ShieldIcon className="size-3 mr-2" />
-          Você está em modo administrador
+          Administrador
         </Badge>
       )}
 

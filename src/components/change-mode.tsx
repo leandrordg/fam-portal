@@ -4,31 +4,40 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import type { ROLE } from "@prisma/client";
 import { LogOutIcon, ShieldIcon } from "lucide-react";
 
 type Props = {
-  isAdmin: boolean;
+  role: ROLE;
 };
 
-export function ChangeMode({ isAdmin }: Props) {
+export function ChangeMode({ role }: Props) {
   const pathname = usePathname();
 
-  if (!isAdmin) return null;
+  if (!role || role === "GUEST" || role === "STUDENT") return null;
 
-  if (pathname.startsWith("/admin")) {
+  if (role === "TEACHER") {
     return (
-      <Link href="/dashboard">
+      <Link href={pathname.includes("/teacher") ? "/" : "/teacher"}>
         <Button title="Alterar modo" variant="outline" size="icon">
-          <LogOutIcon className="size-4" />
+          {pathname.includes("/teacher") ? (
+            <LogOutIcon className="size-4" />
+          ) : (
+            <ShieldIcon className="size-4" />
+          )}
         </Button>
       </Link>
     );
   }
 
   return (
-    <Link href="/admin">
+    <Link href={pathname.includes("/admin") ? "/" : "/admin"}>
       <Button title="Alterar modo" variant="outline" size="icon">
-        <ShieldIcon className="size-4" />
+        {pathname.includes("/admin") ? (
+          <LogOutIcon className="size-4" />
+        ) : (
+          <ShieldIcon className="size-4" />
+        )}
       </Button>
     </Link>
   );

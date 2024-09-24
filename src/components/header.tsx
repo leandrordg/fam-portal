@@ -3,6 +3,7 @@ import { Logo } from "@/components/logo";
 import { MobileMenu } from "@/components/mobile-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { currentRole } from "@/lib/role";
 import {
   ClerkLoaded,
   ClerkLoading,
@@ -11,23 +12,20 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
 import { LogInIcon } from "lucide-react";
 
 export function Header() {
-  const { sessionClaims } = auth();
-
-  const isAdmin = sessionClaims?.metadata.isAdmin!!;
+  const role = currentRole();
 
   return (
     <header className="border-b border-input bg-background">
       <nav className="flex items-center gap-4 px-6 lg:px-10 py-3">
-        <MobileMenu isAdmin={isAdmin} />
+        <MobileMenu role={role} />
 
-        <Logo isAdmin={isAdmin} />
+        <Logo role={role} />
 
         <div className="flex items-center gap-4 ml-auto">
-          <ChangeMode isAdmin={isAdmin} />
+          <ChangeMode role={role} />
 
           <ThemeToggle />
 
