@@ -7,9 +7,23 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks/(.*)",
 ]);
 
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+
 export default clerkMiddleware((auth, request) => {
+  const { sessionClaims } = auth();
+
   if (!isPublicRoute(request)) {
     auth().protect();
+  }
+
+  // check if the user is an admin
+  const isAdmin = sessionClaims?.metadata.isAdmin;
+
+  // if is an admin route and the user is not an admin, protect the route, returning a 404
+  if (isAdminRoute(request) && !isAdmin) {
+    auth().protect((has) => {
+      return has({ role: "isAdmin" });
+    });
   }
 });
 
