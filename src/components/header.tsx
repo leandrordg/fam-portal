@@ -10,18 +10,23 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { LogInIcon } from "lucide-react";
 
 export function Header() {
+  const { sessionClaims } = auth();
+
+  const isAdmin = sessionClaims?.metadata.isAdmin!!;
+
   return (
     <header className="border-b border-input bg-background">
       <nav className="flex items-center gap-4 px-6 lg:px-10 py-3">
-        <MobileMenu />
+        <MobileMenu isAdmin={isAdmin} />
 
         <Logo />
 
         <div className="flex items-center gap-4 ml-auto">
-          <ChangeMode />
+          <ChangeMode isAdmin={isAdmin} />
 
           <ThemeToggle />
 

@@ -4,15 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "@clerk/nextjs";
 import { LogOutIcon, ShieldIcon } from "lucide-react";
 
-export function ChangeMode() {
-  const { session } = useSession();
+type Props = {
+  isAdmin: boolean;
+};
 
+export function ChangeMode({ isAdmin }: Props) {
   const pathname = usePathname();
-
-  const isAdmin = session?.user.publicMetadata.isAdmin;
 
   if (!isAdmin) return null;
 

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { NavigationLink } from "@/components/navigation-link";
 import type { Link } from "@/types/globals";
 import { BoltIcon, HomeIcon, SquareActivityIcon } from "lucide-react";
-import { useSession } from "@clerk/nextjs";
 
 const publicLinks: Link[] = [
   { id: "1", url: "/dashboard", name: "Página Inicial", icon: HomeIcon },
@@ -29,17 +28,15 @@ const privateLinks: Link[] = [
 ];
 
 type Props = {
+  isAdmin: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function NavigationMenu({ setOpen }: Props) {
-  const { session } = useSession();
-
+export function NavigationMenu({ isAdmin, setOpen }: Props) {
   const pathname = usePathname();
 
-  const isAdmin = session?.user.publicMetadata.isAdmin;
-
-  const links = pathname.startsWith("/admin") && isAdmin ? privateLinks : publicLinks;
+  const links =
+    pathname.startsWith("/admin") && isAdmin ? privateLinks : publicLinks;
 
   return (
     <ul className="flex flex-col gap-2">

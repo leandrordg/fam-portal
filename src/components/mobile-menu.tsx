@@ -10,12 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 
-export function MobileMenu() {
+type Props = {
+  isAdmin: boolean;
+};
+
+export function MobileMenu({ isAdmin }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
 
-  const isPrivate = pathname.startsWith("/admin");
+  const isPrivate = pathname.startsWith("/admin") && isAdmin;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -29,7 +33,7 @@ export function MobileMenu() {
 
         {isPrivate && <Badge>Você está em modo administrador</Badge>}
 
-        <NavigationMenu setOpen={setIsOpen} />
+        <NavigationMenu isAdmin={isAdmin} setOpen={setIsOpen} />
       </SheetContent>
     </Sheet>
   );
