@@ -44,7 +44,7 @@ export function NavigationMenu({ setOpen }: Props) {
           url={link.url}
           name={link.name}
           icon={link.icon}
-          setOpen={setOpen || undefined}
+          setOpen={setOpen}
         />
       ))}
     </ul>
