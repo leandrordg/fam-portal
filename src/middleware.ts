@@ -7,6 +7,9 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks/(.*)",
 ]);
 
+const isGuestRoute = createRouteMatcher(["/onboarding(.*)"]);
+const isStudentRoute = createRouteMatcher(["/dashboard(.*)"]);
+const isTeacherRoute = createRouteMatcher(["/teacher(.*)"]);
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
 export default clerkMiddleware((auth, request) => {
@@ -16,11 +19,27 @@ export default clerkMiddleware((auth, request) => {
     auth().protect();
   }
 
-  // check if the user is an admin
-  const isAdmin = sessionClaims?.metadata.user_role === "ADMIN";
+  const userRole = sessionClaims?.metadata.user_role;
 
-  // if is an admin route and the user is not an admin, protect the route, returning a 404
-  if (isAdminRoute(request) && !isAdmin) {
+  if (isGuestRoute(request) && userRole !== "GUEST") {
+    auth().protect((has) => {
+      return has({ permission: "user_role:'GUEST'" });
+    });
+  }
+
+  if (isStudentRoute(request) && userRole !== "STUDENT") {
+    auth().protect((has) => {
+      return has({ permission: "user_role:'STUDENT'" });
+    });
+  }
+
+  if (isTeacherRoute(request) && userRole !== "TEACHER") {
+    auth().protect((has) => {
+      return has({ permission: "user_role:'TEACHER'" });
+    });
+  }
+
+  if (isAdminRoute(request) && userRole !== "ADMIN") {
     auth().protect((has) => {
       return has({ permission: "user_role:'ADMIN'" });
     });

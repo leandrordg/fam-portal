@@ -105,10 +105,10 @@ export function NavigationMenu({ role, setOpen }: Props) {
 
   return (
     <ul className="flex flex-col gap-2">
-      {role === "ADMIN" && (
+      {(role == "ADMIN" || role == "TEACHER") && (
         <Badge variant="secondary" className="mb-4">
           <ShieldIcon className="size-3 mr-2" />
-          Administrador
+          {role == "TEACHER" ? "Professor" : "Administrador"}
         </Badge>
       )}
 
