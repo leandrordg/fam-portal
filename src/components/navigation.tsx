@@ -3,11 +3,13 @@
 import { usePathname } from "next/navigation";
 
 import { NavigationLink } from "@/components/navigation-link";
+import { Badge } from "@/components/ui/badge";
 import type { Link } from "@/types/globals";
 import {
   BoltIcon,
   HomeIcon,
   LayoutDashboardIcon,
+  ShieldIcon,
   SquareActivityIcon,
 } from "lucide-react";
 
@@ -57,11 +59,19 @@ type Props = {
 export function NavigationMenu({ isAdmin, setOpen }: Props) {
   const pathname = usePathname();
 
-  const links =
-    pathname.startsWith("/admin") && isAdmin ? privateLinks : publicLinks;
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  const links = isAdminRoute && isAdmin ? privateLinks : publicLinks;
 
   return (
     <ul className="flex flex-col gap-2">
+      {isAdminRoute && isAdmin && (
+        <Badge className="mb-4">
+          <ShieldIcon className="size-3 mr-2" />
+          Você está em modo administrador
+        </Badge>
+      )}
+
       {links.map((link) => (
         <NavigationLink
           key={link.id}

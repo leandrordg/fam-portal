@@ -6,6 +6,7 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const { sessionClaims } = auth();
 
+  // the middleware already prevents this route for those who are not administrators, however this code is an extra to protect the system, it may be removed in the future
   const isAdmin = sessionClaims?.metadata.isAdmin!!;
 
   return (

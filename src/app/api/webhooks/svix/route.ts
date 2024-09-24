@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
@@ -70,6 +70,13 @@ export async function POST(req: Request) {
           updatedAt: new Date(evt.data.updated_at).toISOString(),
         },
       });
+
+      await clerkClient.users.updateUserMetadata(evt.data.id, {
+        publicMetadata: {
+          user_role: "guest",
+        },
+      });
+
       console.log(`[SVIX] User created with ID: ${id}`);
       break;
     case "user.updated":
