@@ -4,18 +4,34 @@ import { usePathname } from "next/navigation";
 
 import { NavigationLink } from "@/components/navigation-link";
 import type { Link } from "@/types/globals";
-import { BoltIcon, HomeIcon, SquareActivityIcon } from "lucide-react";
+import {
+  BoltIcon,
+  HomeIcon,
+  LayoutDashboardIcon,
+  SquareActivityIcon,
+} from "lucide-react";
 
 const publicLinks: Link[] = [
-  { id: "1", url: "/dashboard", name: "Página Inicial", icon: HomeIcon },
+  {
+    id: "1",
+    url: "/",
+    name: "Página Inicial",
+    icon: HomeIcon,
+  },
   {
     id: "2",
+    url: "/dashboard",
+    name: "Dashboard",
+    icon: LayoutDashboardIcon,
+  },
+  {
+    id: "3",
     url: "/dashboard/exercises",
     name: "Atividades",
     icon: SquareActivityIcon,
   },
   {
-    id: "3",
+    id: "4",
     url: "/dashboard/settings",
     name: "Configurações",
     icon: BoltIcon,
@@ -23,8 +39,14 @@ const publicLinks: Link[] = [
 ];
 
 const privateLinks: Link[] = [
-  { id: "1", url: "/admin", name: "Dashboard", icon: HomeIcon },
-  { id: "2", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
+  {
+    id: "1",
+    url: "/",
+    name: "Página Inicial",
+    icon: HomeIcon,
+  },
+  { id: "2", url: "/admin", name: "Dashboard", icon: LayoutDashboardIcon },
+  { id: "3", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
 ];
 
 type Props = {

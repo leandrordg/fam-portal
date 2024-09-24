@@ -29,7 +29,7 @@ export function MobileMenu({ isAdmin }: Props) {
         </Button>
       </SheetTrigger>
       <SheetContent className="flex flex-col gap-6" side="left">
-        <Logo />
+        <Logo isAdmin={isAdmin} />
 
         {isPrivate && <Badge>Você está em modo administrador</Badge>}
 

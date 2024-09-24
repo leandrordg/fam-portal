@@ -19,7 +19,7 @@ export function NavigationLink({ url, name, icon: Icon, setOpen }: Props) {
 
   return (
     <Link href={url} onClick={() => setOpen && setOpen(false)}>
-      <li className={`flex items-center ${isActive && "font-semibold"}`}>
+      <li className={`flex items-center text-muted-foreground ${isActive && "text-black dark:text-white font-semibold"}`}>
         <Icon className="size-4 mr-4"/> {name} {isActive && <ChevronRightIcon className="size-4 ml-auto" />}
       </li>
     </Link>

@@ -4,6 +4,7 @@ import { MobileMenu } from "@/components/mobile-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
+  ClerkLoaded,
   ClerkLoading,
   SignedIn,
   SignedOut,
@@ -23,7 +24,7 @@ export function Header() {
       <nav className="flex items-center gap-4 px-6 lg:px-10 py-3">
         <MobileMenu isAdmin={isAdmin} />
 
-        <Logo />
+        <Logo isAdmin={isAdmin} />
 
         <div className="flex items-center gap-4 ml-auto">
           <ChangeMode isAdmin={isAdmin} />
@@ -34,17 +35,19 @@ export function Header() {
             <div className="size-7 rounded-full bg-muted animate-pulse" />
           </ClerkLoading>
 
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <ClerkLoaded>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
 
-          <SignedOut>
-            <SignInButton mode="modal">
-              <Button title="Entrar" variant="outline" size="icon">
-                <LogInIcon className="size-4" />
-              </Button>
-            </SignInButton>
-          </SignedOut>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button title="Entrar" variant="outline" size="icon">
+                  <LogInIcon className="size-4" />
+                </Button>
+              </SignInButton>
+            </SignedOut>
+          </ClerkLoaded>
         </div>
       </nav>
     </header>

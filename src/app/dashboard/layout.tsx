@@ -9,7 +9,7 @@ export default function DashboardLayout({
   const isAdmin = sessionClaims?.metadata.isAdmin!!;
 
   return (
-    <div className="flex p-6 lg:p-10 gap-6">
+    <div className="flex p-6 lg:p-10 gap-6 max-w-screen-2xl mx-auto">
       {/* Sidebar */}
       <nav className="hidden lg:block min-w-64">
         <NavigationMenu isAdmin={isAdmin} />

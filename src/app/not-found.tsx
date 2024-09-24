@@ -13,7 +13,7 @@ export default function Page() {
           A página que você está procurando não existe.
         </p>
 
-        <Link href="/" className="text-sky-700">
+        <Link href="/dashboard" className="text-sky-700">
           Voltar para a página inicial
         </Link>
       </div>
