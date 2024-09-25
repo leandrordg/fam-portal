@@ -18,27 +18,27 @@ export function ChangeMode({ role }: Props) {
 
   if (role === "TEACHER") {
     return (
-      <Link href={pathname.includes("/teacher") ? "/" : "/teacher"}>
-        <Button title="Alterar modo" variant="outline" size="icon">
+      <Button title="Alterar modo" variant="outline" size="icon" asChild>
+        <Link href={pathname.includes("/teacher") ? "/" : "/teacher"}>
           {pathname.includes("/teacher") ? (
             <LogOutIcon className="size-4" />
           ) : (
             <ShieldIcon className="size-4" />
           )}
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     );
   }
 
   return (
-    <Link href={pathname.includes("/admin") ? "/" : "/admin"}>
-      <Button title="Alterar modo" variant="outline" size="icon">
+    <Button title="Alterar modo" variant="outline" size="icon" asChild>
+      <Link href={pathname.includes("/admin") ? "/" : "/admin"}>
         {pathname.includes("/admin") ? (
           <LogOutIcon className="size-4" />
         ) : (
           <ShieldIcon className="size-4" />
         )}
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 }
