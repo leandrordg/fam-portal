@@ -11,6 +11,7 @@ import {
   LayoutDashboardIcon,
   ShieldIcon,
   SquareActivityIcon,
+  UsersIcon,
 } from "lucide-react";
 
 const guestLinks: Link[] = [
@@ -86,7 +87,13 @@ const adminLinks: Link[] = [
     icon: HomeIcon,
   },
   { id: "2", url: "/admin", name: "Dashboard", icon: LayoutDashboardIcon },
-  { id: "3", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
+  {
+    id: "3",
+    url: "/admin/users",
+    name: "Usuários",
+    icon: UsersIcon,
+  },
+  { id: "4", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
 ];
 
 type Props = {

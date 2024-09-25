@@ -16,7 +16,9 @@ type Props = {
 export function NavigationLink({ url, name, icon: Icon, setOpen }: Props) {
   const pathname = usePathname();
 
-  const isActive = pathname === url;
+  const subRouteActive = pathname.split("/")[2];
+
+  const isActive = pathname === url || url.includes(subRouteActive);
 
   return (
     <Link href={url} onClick={() => setOpen && setOpen(false)}>
