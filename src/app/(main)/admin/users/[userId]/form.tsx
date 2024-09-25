@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,14 +18,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { User } from "@prisma/client";
-import { useState } from "react";
+import { Loader2Icon, LockIcon, ShieldBanIcon } from "lucide-react";
+import { toast } from "sonner";
+import { updateUser } from "./actions";
 
 const formSchema = z.object({
   firstName: z.string().min(1).max(256),
   lastName: z.string().min(1).max(256),
-  username: z.string().min(1).max(256),
-  phone: z.string().regex(/^\+55\d{11}$/),
-  email: z.string().email(),
+  username: z.string().max(256).optional(),
 });
 
 type Props = {
@@ -39,13 +41,25 @@ export function UserForm({ user }: Props) {
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username ?? "",
-      phone: user.phone ?? "",
-      email: user.email,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const res = await updateUser({
+      id: user.id,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      username: values.username,
+    });
+
+    if (res?.data?.success) {
+      toast.success(res.data.success);
+      return;
+    }
+
+    if (res?.data?.error) {
+      toast.error(res?.data?.error);
+    }
   }
 
   const { isDirty, isValid, isSubmitting } = form.formState;
@@ -67,7 +81,9 @@ export function UserForm({ user }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Este é o seu nome público.</FormDescription>
+                <FormDescription>
+                  Este é o nome público que aparecerá em seu perfil.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -86,7 +102,7 @@ export function UserForm({ user }: Props) {
                   />
                 </FormControl>
                 <FormDescription>
-                  Este é o seu sobrenome público.
+                  Este é o sobrenome público que aparecerá em seu perfil.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -106,46 +122,15 @@ export function UserForm({ user }: Props) {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Este é o seu nome de usuário.</FormDescription>
+              <FormDescription>
+                Nome de usuário que irá utilizar para acessar o sistema.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>E-mail</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="exemplo@gmail.com"
-                  disabled={!isEditing}
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Este é o seu e-mail público.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Número de contato</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="+5519123456789"
-                  disabled={!isEditing}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        {/* buttons */}
         <div className="flex flex-wrap gap-2">
           <Button
             type="button"
@@ -163,9 +148,25 @@ export function UserForm({ user }: Props) {
               type="submit"
               disabled={!isDirty || !isValid || isSubmitting}
             >
-              Salvar
+              {isSubmitting ? (
+                <Loader2Icon className="size-3 animate-spin" />
+              ) : (
+                "Salvar"
+              )}
             </Button>
           )}
+        </div>
+
+        {/* actions */}
+        <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" type="button">
+            <LockIcon className="size-3 mr-2" />
+            Bloquear usuário
+          </Button>
+          <Button variant="secondary" type="button">
+            <ShieldBanIcon className="size-3 mr-2" />
+            Banir usuário
+          </Button>
         </div>
       </form>
     </Form>

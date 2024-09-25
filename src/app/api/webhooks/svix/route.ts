@@ -92,7 +92,7 @@ export async function POST(req: Request) {
           username: evt.data.username,
           phone: evt.data.phone_numbers.find(
             (p) => p.id === evt.data.primary_phone_number_id
-          )?.phone_number,
+          )?.phone_number || null,
           imageUrl: evt.data.image_url,
           updatedAt: new Date(evt.data.updated_at).toISOString(),
           role: evt.data.public_metadata?.user_role,

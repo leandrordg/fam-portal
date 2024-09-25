@@ -55,7 +55,7 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Criado em",
+    header: "Entrou",
     cell: ({ row }) => {
       const { createdAt } = row.original;
 
@@ -64,7 +64,7 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "updatedAt",
-    header: "Atualizado em",
+    header: "Última atualização",
     cell: ({ row }) => {
       const { updatedAt } = row.original;
 

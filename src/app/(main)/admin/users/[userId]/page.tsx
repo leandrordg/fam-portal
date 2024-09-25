@@ -3,6 +3,7 @@ import { ErrorAlert } from "@/components/error-alert";
 import { UserHead } from "@/components/user-head";
 import { getIndividualUser } from "@/hooks/users";
 import { UserForm } from "./form";
+import { CustomAlert } from "@/components/custom-alert";
 
 export default async function Page({
   params: { userId },
@@ -27,6 +28,11 @@ export default async function Page({
         <CustomBreadcrumb />
 
         <UserHead user={user} />
+
+        <CustomAlert
+          title="Outras informações"
+          message="Você pode atualizar outras informações acessando o painel de controle de autenticação."
+        />
 
         <UserForm user={user} />
       </section>
