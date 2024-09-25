@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { formatRole, formatTimestamp } from "@/lib/utils";
 import type { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import Link from "next/link";
 
 export const columns: ColumnDef<User>[] = [
   {
