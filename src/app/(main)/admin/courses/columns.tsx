@@ -4,10 +4,14 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { formatTimestamp } from "@/lib/utils";
-import type { Course } from "@prisma/client";
+import type { Class, Course } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<Course>[] = [
+export const columns: ColumnDef<
+  Course & {
+    classes: Class[];
+  }
+>[] = [
   {
     accessorKey: "title",
     header: "Título",
@@ -24,15 +28,25 @@ export const columns: ColumnDef<Course>[] = [
     },
   },
   {
+    accessorKey: "classes",
+    header: "Classes",
+    cell: ({ row }) => {
+      const { classes } = row.original;
+
+      // qty of classes
+      return <span>{classes.length}</span>;
+    },
+  },
+  {
     accessorKey: "description",
     header: "Descrição",
     cell: ({ row }) => {
       const { description } = row.original;
 
       return (
-        <span title={description} className="line-clamp-1 break-words">
+        <div title={description} className="w-48 truncate">
           {description}
-        </span>
+        </div>
       );
     },
   },

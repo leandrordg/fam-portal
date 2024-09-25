@@ -25,16 +25,26 @@ model User {
   role      ROLE     @default(GUEST)
   createdAt DateTime
   updatedAt DateTime
-  course    Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId  String?
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   String?
 }
 
 model Course {
   id          String   @id @default(cuid())
   title       String
   description String
-  imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  students    User[]
+  classes     Class[]
+}
+
+model Class {
+  id         String   @id @default(cuid())
+  identifier String   @unique
+  title      String
+  courseId   String
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  students   User[]
 }

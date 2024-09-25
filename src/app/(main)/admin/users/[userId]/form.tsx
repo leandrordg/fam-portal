@@ -45,12 +45,7 @@ export function UserForm({ user }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await updateUser({
-      id: user.id,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      username: values.username,
-    });
+    const res = await updateUser({ id: user.id, ...values });
 
     if (res?.data?.success) {
       toast.success(res.data.success);
