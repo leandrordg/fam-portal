@@ -29,7 +29,9 @@ export function GridClasses({ classes }: Props) {
           <CardHeader>
             <CardTitle>{classItem.title}</CardTitle>
             <CardDescription>
-              {classItem.rooms.map((room) => room.title).join(", ")}
+              {classItem.rooms.length
+                ? classItem.rooms.map((room) => room.title).join(", ")
+                : "Nenhuma sala associada."}
             </CardDescription>
           </CardHeader>
           <CardContent>

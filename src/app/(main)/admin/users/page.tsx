@@ -1,10 +1,10 @@
 import { ChartNewUsers } from "@/components/chart-new-users";
-import { getAllUsers } from "@/hooks/users";
+import { getManyUsers } from "@/hooks/users";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
 export default async function Page() {
-  const users = await getAllUsers();
+  const users = await getManyUsers();
 
   return (
     <main className="max-w-screen-lg mx-auto w-full">

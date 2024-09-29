@@ -60,7 +60,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const { createdAt } = row.original;
 
-      return formatTimestamp(createdAt, "medium");
+      return <span className="text-nowrap">{formatTimestamp(createdAt, "medium")}</span>;
     },
   },
   {
@@ -69,7 +69,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const { updatedAt } = row.original;
 
-      return formatTimestamp(updatedAt, "medium");
+      return <span className="text-nowrap">{formatTimestamp(updatedAt, "medium")}</span>
     },
   },
 ];

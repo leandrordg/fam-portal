@@ -9,6 +9,9 @@ const getSubjectsByClassId = async (classId: string) => {
         },
       },
     },
+    orderBy: {
+      title: "asc",
+    },
   });
 };
 

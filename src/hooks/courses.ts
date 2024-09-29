@@ -5,6 +5,9 @@ const getManyCourses = async () => {
     include: {
       classes: true,
     },
+    orderBy: {
+      title: "asc",
+    },
   });
 };
 
@@ -17,4 +20,4 @@ const getCourseById = async (id: string) => {
   });
 };
 
-export { getManyCourses, getCourseById };
+export { getCourseById, getManyCourses };

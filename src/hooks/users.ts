@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
-const getAllUsers = async () => {
+const getManyUsers = async () => {
   const { userId } = auth();
 
   return await db.user.findMany({
@@ -9,6 +9,9 @@ const getAllUsers = async () => {
       NOT: {
         id: userId!,
       },
+    },
+    orderBy: {
+      firstName: "asc",
     },
   });
 };
@@ -25,4 +28,4 @@ const getIndividualUser = async (id: string) => {
   });
 };
 
-export { getAllUsers, getIndividualUser };
+export { getIndividualUser, getManyUsers };

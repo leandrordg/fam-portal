@@ -6,6 +6,9 @@ const getManyClasses = async () => {
       students: true,
       rooms: true,
     },
+    orderBy: {
+      title: "asc",
+    },
   });
 };
 
@@ -15,6 +18,9 @@ const getClassesByCourseId = async (courseId: string) => {
     include: {
       students: true,
       rooms: true,
+    },
+    orderBy: {
+      title: "asc",
     },
   });
 };
@@ -29,4 +35,4 @@ const getIndividualClassById = async (classId: string) => {
   });
 };
 
-export { getManyClasses, getClassesByCourseId, getIndividualClassById };
+export { getClassesByCourseId, getIndividualClassById, getManyClasses };
