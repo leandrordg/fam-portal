@@ -1,4 +1,4 @@
-import { ChartActiveCourses } from "@/components/chart-active-courses";
+import { ChartDashboard } from "@/components/chart-dashboard";
 
 export default function Page() {
   return (
@@ -6,7 +6,7 @@ export default function Page() {
       <section className="flex flex-col gap-6">
         <h1 className="text-lg font-medium">Dashboard do administrador</h1>
 
-        <ChartActiveCourses />
+        <ChartDashboard />
       </section>
     </main>
   );

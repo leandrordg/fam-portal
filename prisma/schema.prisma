@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Cargos
 enum ROLE {
   GUEST
   STUDENT
@@ -14,6 +15,7 @@ enum ROLE {
   ADMIN
 }
 
+// Usuário
 model User {
   id        String   @id
   firstName String
@@ -25,10 +27,14 @@ model User {
   role      ROLE     @default(GUEST)
   createdAt DateTime
   updatedAt DateTime
-  class     Class?   @relation(fields: [classId], references: [id])
-  classId   String?
+
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  courseId String?
+  class    Class?  @relation(fields: [classId], references: [id], onDelete: SetNull)
+  classId  String?
 }
 
+// Curso
 model Course {
   id          String   @id @default(cuid())
   title       String
@@ -36,15 +42,36 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   classes     Class[]
+  students    User[]
 }
 
+// Sala
+model Room {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  classes   Class[]
+}
+
+// Turma
 model Class {
-  id         String   @id @default(cuid())
-  identifier String   @unique
-  title      String
-  courseId   String
-  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  students   User[]
+  id        String    @id @default(cuid())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  course    Course    @relation(fields: [courseId], references: [id])
+  courseId  String
+  rooms     Room[]
+  students  User[]
+  subjects  Subject[]
+}
+
+// Matéria
+model Subject {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  classes   Class[]
 }

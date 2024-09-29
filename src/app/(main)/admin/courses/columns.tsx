@@ -44,7 +44,7 @@ export const columns: ColumnDef<
       const { description } = row.original;
 
       return (
-        <div title={description} className="w-48 truncate">
+        <div title={description} className="max-w-48 truncate">
           {description}
         </div>
       );
@@ -52,7 +52,7 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: "createdAt",
-    header: "Entrou",
+    header: "Criado em",
     cell: ({ row }) => {
       const { createdAt } = row.original;
 

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-const getAllCourses = async () => {
+const getManyCourses = async () => {
   return await db.course.findMany({
     include: {
       classes: true,
@@ -17,4 +17,4 @@ const getCourseById = async (id: string) => {
   });
 };
 
-export { getAllCourses, getCourseById };
+export { getManyCourses, getCourseById };

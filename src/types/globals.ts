@@ -5,12 +5,14 @@ export {};
 
 declare global {
   interface UserPublicMetadata {
-    user_role: ROLE;
+    user_role?: ROLE;
+    course_id?: string;
+    class_id?: string;
   }
 
   interface CustomJwtSessionClaims {
     metadata: {
-      user_role: ROLE;
+      user_role?: ROLE;
     };
   }
 }

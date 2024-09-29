@@ -8,7 +8,7 @@ const getAllUsers = async () => {
     where: {
       NOT: {
         id: userId!,
-      }
+      },
     },
   });
 };
@@ -18,8 +18,11 @@ const getIndividualUser = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      course: true,
+      class: true,
+    },
   });
 };
 
 export { getAllUsers, getIndividualUser };
-

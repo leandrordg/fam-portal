@@ -5,7 +5,6 @@ export default function Page() {
     <ErrorAlert
       title="Página não encontrada"
       message="A página que você está tentando acessar não existe."
-      url="/"
     />
   );
 }

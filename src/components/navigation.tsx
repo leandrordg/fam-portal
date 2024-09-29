@@ -10,6 +10,7 @@ import {
   LandPlotIcon,
   LayoutDashboardIcon,
   LibraryIcon,
+  ShapesIcon,
   ShieldIcon,
   SquareActivityIcon,
   UsersIcon,
@@ -100,7 +101,13 @@ const adminLinks: Link[] = [
     name: "Cursos",
     icon: LibraryIcon,
   },
-  { id: "5", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
+  {
+    id: "5",
+    url: "/admin/classes",
+    name: "Turmas",
+    icon: ShapesIcon,
+  },
+  { id: "6", url: "/admin/settings", name: "Configurações", icon: BoltIcon },
 ];
 
 type Props = {

@@ -37,7 +37,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartActiveCourses() {
+export function ChartDashboard() {
   return (
     <Card>
       <CardHeader>

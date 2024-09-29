@@ -33,6 +33,8 @@ export const formatPath = (path: string) => {
       return "Usuários";
     case "courses":
       return "Cursos";
+    case "classes":
+      return "Turmas";
     case "students":
       return "Alunos";
     case "teachers":

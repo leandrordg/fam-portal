@@ -90,12 +90,15 @@ export async function POST(req: Request) {
             (e) => e.id === evt.data.primary_email_address_id
           )?.email_address!,
           username: evt.data.username,
-          phone: evt.data.phone_numbers.find(
-            (p) => p.id === evt.data.primary_phone_number_id
-          )?.phone_number || null,
+          phone:
+            evt.data.phone_numbers.find(
+              (p) => p.id === evt.data.primary_phone_number_id
+            )?.phone_number || null,
           imageUrl: evt.data.image_url,
           updatedAt: new Date(evt.data.updated_at).toISOString(),
           role: evt.data.public_metadata?.user_role,
+          courseId: evt.data.public_metadata?.course_id,
+          classId: evt.data.public_metadata?.class_id,
         },
       });
 

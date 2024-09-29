@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import { ClassCombobox } from "@/components/class-combobox";
+import { CourseCombobox } from "@/components/course-combobox";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,39 +14,48 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import type { User } from "@prisma/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Class, Course, User } from "@prisma/client";
 import { Loader2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateUser } from "./actions/update-user";
+import { z } from "zod";
+import { updateRegistration } from "./actions/update-registration";
 
 const formSchema = z.object({
-  firstName: z.string().min(1).max(256),
-  lastName: z.string().min(1).max(256),
-  username: z.string().max(256).optional(),
+  courseId: z.string().min(2, { message: "Curso obrigatório" }).max(50),
+  classId: z.string().min(2, { message: "Curso obrigatório" }).max(50),
 });
 
 type Props = {
   user: User;
+  courses: Course[] | null;
+  classes: Class[] | null;
 };
 
-export function UserForm({ user }: Props) {
+export function CourseForm({ user, courses, classes }: Props) {
   const [isEditing, setIsEditing] = useState(false);
-
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      username: user.username ?? "",
+      courseId: user.courseId ?? "",
+      classId: user.classId ?? "",
     },
   });
 
+  // const that returns the value of classes based on the chosen course
+  const classesFromCourse =
+    classes?.filter(
+      (individualClass) => individualClass.courseId === form.watch("courseId")
+    ) ?? classes;
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await updateUser({ id: user.id, ...values });
+    const res = await updateRegistration({
+      id: user.id,
+      courseId: values.courseId,
+      classId: values.classId,
+    });
 
     if (res?.data?.success) {
       toast.success(res.data.success);
@@ -61,27 +68,28 @@ export function UserForm({ user }: Props) {
     }
   }
 
-  const { isDirty, isValid, isSubmitting } = form.formState;
+  const { isSubmitting, isValid, isDirty } = form.formState;
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex flex-col gap-6 md:flex-row">
+        <div className="flex flex-col lg:flex-row gap-6">
           <FormField
             control={form.control}
-            name="firstName"
+            name="courseId"
             render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Nome</FormLabel>
+              <FormItem className="flex flex-col w-full">
+                <FormLabel>Selecione o curso</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Leandro"
+                  <CourseCombobox
+                    value={field.value}
+                    onChange={field.onChange}
+                    courses={courses}
                     disabled={!isEditing}
-                    {...field}
                   />
                 </FormControl>
                 <FormDescription>
-                  Este é o nome público que aparecerá em seu perfil.
+                  O curso que o aluno está matriculado.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -89,47 +97,27 @@ export function UserForm({ user }: Props) {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name="classId"
             render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Sobrenome</FormLabel>
+              <FormItem className="flex flex-col w-full">
+                <FormLabel>Selecione a turma</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Rodrigues"
-                    disabled={!isEditing}
-                    {...field}
+                  <ClassCombobox
+                    value={field.value}
+                    onChange={field.onChange}
+                    classes={classesFromCourse}
+                    disabled={!isEditing || !!!form.getValues("courseId")}
                   />
                 </FormControl>
                 <FormDescription>
-                  Este é o sobrenome público que aparecerá em seu perfil.
+                  A turma que o aluno está matriculado, refere-se ao curso.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Usuário</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="leandrordg"
-                  disabled={!isEditing}
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Nome de usuário que irá utilizar para acessar o sistema.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        {/* actions */}
         <div className="flex items-center flex-wrap gap-2">
           <Button
             type="button"

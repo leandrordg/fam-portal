@@ -17,38 +17,39 @@ import { formatPath } from "@/lib/utils";
 export function CustomBreadcrumb() {
   const pathname = usePathname();
 
-  const allPaths = pathname.split("/").filter((path) => path !== "");
+  // remove last path if it is a page
+  const allPaths = pathname.split("/").slice(1, -1);
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {allPaths.map((path, index) => {
-          const isPage = index === allPaths.length - 1;
-
-          if (isPage) {
-            return (
-              <Fragment key={index}>
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{formatPath(path)}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </Fragment>
-            );
-          }
-
-          return (
-            <Fragment key={index}>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={`/${allPaths.slice(0, index + 1).join("/")}`}>
-                    {formatPath(path)}
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-            </Fragment>
-          );
-        })}
+        {allPaths.map((path, index) => (
+          <Fragment key={index}>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/${allPaths.slice(0, index + 1).join("/")}`}>
+                  {formatPath(path)}
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            {/* if is last path, dont show separator */}
+            {index !== allPaths.length - 1 && <BreadcrumbSeparator />}
+          </Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );
 }
+
+// to use the current paga in future, use the code below
+// const isPage = index === allPaths.length - 1;
+
+// if (isPage) {
+//   return (
+//     <Fragment key={index}>
+//       <BreadcrumbItem>
+//         <BreadcrumbPage>{formatPath(path)}</BreadcrumbPage>
+//       </BreadcrumbItem>
+//     </Fragment>
+//   );
+// }

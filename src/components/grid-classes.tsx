@@ -6,13 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Class, User } from "@prisma/client";
+import type { Class, Room, User } from "@prisma/client";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
 type Props = {
   classes: (Class & {
     students: User[];
+    rooms: Room[];
   })[];
 };
 
@@ -27,7 +28,9 @@ export function GridClasses({ classes }: Props) {
         <Card key={classItem.id}>
           <CardHeader>
             <CardTitle>{classItem.title}</CardTitle>
-            <CardDescription>{classItem.identifier}</CardDescription>
+            <CardDescription>
+              {classItem.rooms.map((room) => room.title).join(", ")}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
@@ -36,7 +39,9 @@ export function GridClasses({ classes }: Props) {
           </CardContent>
           <CardFooter>
             <Button variant="link" asChild>
-              <Link href={`/classes/${classItem.id}`}>Acessar classe</Link>
+              <Link href={`/admin/classes/${classItem.id}`}>
+                Acessar classe
+              </Link>
             </Button>
           </CardFooter>
         </Card>

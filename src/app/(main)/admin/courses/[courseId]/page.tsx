@@ -19,7 +19,6 @@ export default async function Page({
       <ErrorAlert
         title="Curso não encontrado"
         message="O curso que você está tentando acessar não existe."
-        url="/admin/courses"
       />
     );
   }
